@@ -6,12 +6,11 @@ import Overview from "./Overview";
 import Charts from "./Charts";
 import PieChartSection from "./PieChartSection";
 import RecentPayments from "./RecentPayments";
-import { useLocation } from "react-router-dom";
+import { useQuery } from "../hooks/useQuery";
 import "./Home.css";
 
-// Helper to validate date format (MM-DD-YYYY)
 const isValidDate = (dateString) => {
-  const regex = /^\d{2}-\d{2}-\d{4}$/; // Matches MM-DD-YYYY
+  const regex = /^\d{2}-\d{2}-\d{4}$/; 
   return regex.test(dateString);
 };
 
@@ -24,13 +23,12 @@ const Home = () => {
   const [customerPayments, setCustomerPayments] = useState([]);
   const [error, setError] = useState(null);
 
-  const query = new URLSearchParams(useLocation().search);
+  const query = useQuery();
 
   useEffect(() => {
-    // Get date from query or set default
     let date = query.get("date");
     if (!date || !isValidDate(date)) {
-      date = "01-01-2025"; // Default date
+      date = "01-01-2025"; 
     }
 
     fetch("/data.json")

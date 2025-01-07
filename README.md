@@ -23,7 +23,7 @@ The rest of the website, such as the sidebar, navbar, and styling, were relative
 The data is fetched from a <code>data.json</code> file, and the information is displayed in the form of an overview, pie charts, graphs, and recent transactions.
 </p>
 <p>
-I used <code>react-router-dom</code> to capture the date from the URL. By default, the date is set to <strong>01-01-2025</strong>. However, if a date is specified, I use:
+I used custom hook, and <code>react-router-dom</code> to capture the date from the URL. By default, the date is set to <strong>01-01-2025</strong>. However, if a date is specified, I use:
 </p>
 <pre>
 const query = new URLSearchParams(useLocation().search);
