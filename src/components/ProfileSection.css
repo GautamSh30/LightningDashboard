@@ -1,0 +1,25 @@
+.profile-section {
+    position: relative;
+    width: 15%;
+  }
+  
+  .profile-header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .profile-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+  }
+  
+  .profile-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+  }
+  
