@@ -1,7 +1,70 @@
 .chart-container {
   background: #ffffff;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 20px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%; 
 }
+
+.chart-header {
+  display: flex;
+  justify-content:left; 
+  align-items: center; 
+}
+
+.chart-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.chart-dropdown {
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #555555;
+  outline: none;
+  margin-left: 15px;
+}
+
+.chart-dropdown:focus {
+  border-color: #8884d8;
+  box-shadow: 0px 0px 4px rgba(136, 132, 216, 0.5);
+}
+
+.chart-title {
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start;
+}
+
+.chart-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.recharts-tooltip-label {
+  font-size: 12px;
+}
+
+.recharts-cartesian-axis-tick-value {
+  font-size: 12px;
+  color: #555555;
+}
+
+.recharts-cartesian-grid-horizontal,
+.recharts-cartesian-grid-vertical {
+  display: none;
+}
+
+.recharts-wrapper {
+  width: 100% !important;
+  height: 400px !important;
+}
+

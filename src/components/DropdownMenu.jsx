@@ -29,7 +29,7 @@ const DropdownMenu = ({ onClose }) => {
   }, [onClose]);
 
   const toggleNotifications = (e) => {
-    e.stopPropagation(); // Prevent triggering the dropdown close
+    e.stopPropagation();
     setShowNotifications((prev) => !prev);
   };
 

@@ -4,7 +4,8 @@ import SearchIcon from './SearchIcon';
 import ProfileSection from './ProfileSection';
 import Overview from './Overview';
 import Charts from './Charts';
-import PieChartSection from './PieChartSection'; // New Component for Pie Chart
+import PieChartSection from './PieChartSection'; 
+import RecentPayments from './RecentPayments'; 
 import './Home.css';
 
 const Home = () => {
@@ -12,9 +13,10 @@ const Home = () => {
   const [supplierData, setSupplierData] = useState([]);
   const [customerData, setCustomerData] = useState([]);
   const [topSellingItems, setTopSellingItems] = useState([]);
+  const [supplierPayments, setSupplierPayments] = useState([]);
+  const [customerPayments, setCustomerPayments] = useState([]);
 
   useEffect(() => {
-    // Fetch data from public folder
     fetch('/data.json')
       .then((response) => {
         if (!response.ok) {
@@ -35,6 +37,9 @@ const Home = () => {
         setSupplierData(data[0].supplier_records);
         setCustomerData(data[0].customer_records);
         setTopSellingItems(data[0].top_selling_products);
+
+        setSupplierPayments(data[0].supplier_payments);
+        setCustomerPayments(data[0].customer_payments);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -43,10 +48,8 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {/* Sidebar */}
       <SideBar />
 
-      {/* Main Content */}
       <div className="main-content">
         <div className="top-header">
           <h1 className="top-center-text">Springfield Media</h1>
@@ -57,12 +60,10 @@ const Home = () => {
           <ProfileSection />
         </div>
 
-        {/* Overview Section */}
         <div className="overview-section">
           <Overview overviewData={overviewData} />
         </div>
 
-        {/* Chart and Pie Chart Section */}
         <div className="charts-and-pie">
           <div className="charts-container">
             <Charts supplierData={supplierData} customerData={customerData} />
@@ -70,6 +71,13 @@ const Home = () => {
           <div className="pie-chart-container">
             <PieChartSection topSellingItems={topSellingItems} />
           </div>
+        </div>
+
+        <div className="recent-payments-section">
+          <RecentPayments
+            supplierPayments={supplierPayments}
+            customerPayments={customerPayments}
+          />
         </div>
       </div>
     </div>

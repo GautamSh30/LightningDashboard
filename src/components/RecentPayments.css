@@ -1,0 +1,84 @@
+.recent-payments {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+  }
+
+  .customer-payments {
+    margin-top: 25px;
+  }
+  
+  .payments-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .payments-table th,
+  .payments-table td {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  
+  .payments-table th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+  }
+  
+  .payments-table td {
+    background-color: #fff;
+  }
+  
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4em 1em;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    min-width: 100px; 
+    text-align: center;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+  }
+  
+  .status-done {
+    background-color: #d4f8e8;
+    color: #28a745;
+    border: 1px solid #28a745;
+  }
+  
+  .status-hold {
+    background-color: #fff4da;
+    color: #ffc107;
+    border: 1px solid #ffc107;
+  }
+  
+  .status-pending {
+    background-color: #f8d7da;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+  }
+  
+  .status .dot {
+    height: 8px;
+    width: 8px;
+    background-color: currentColor;
+    border-radius: 50%;
+    margin-right: 0.5em;
+  }
+  
+  

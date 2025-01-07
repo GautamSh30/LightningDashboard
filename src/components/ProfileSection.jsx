@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import DropdownMenu from './DropdownMenu';
+import DropdownMenu from './DropDownMenu';
 import './ProfileSection.css';
 
 const ProfileSection = () => {
@@ -9,13 +9,11 @@ const ProfileSection = () => {
 
   return (
     <div className="profile-section">
-      {/* Profile Image and Name */}
       <div className="profile-header" onClick={toggleDropdown}>
         <img src="/profile.png" alt="Profile" className="profile-image" />
         <span className="profile-name">Evan Yates</span>
       </div>
 
-      {/* Dropdown Menu */}
       {dropdownOpen && <DropdownMenu />}
     </div>
   );

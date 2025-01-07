@@ -5,36 +5,43 @@ import './PieChartSection.css';
 const PieChartSection = ({ topSellingItems }) => {
     const COLORS = ['#6C63FF', '#4AC4F3', '#B0E4FF', '#D8DFF2'];
 
-  return (
-    <div className="pie-chart-section">
-      <h3>Top Selling Items</h3>
-      <ResponsiveContainer width="100%" height={200}>
-        <PieChart>
-          <Pie
-            data={topSellingItems}
-            dataKey="weight"
-            nameKey="item"
-            cx="50%"
-            cy="50%"
-            outerRadius={60}
-            fill="#8884d8"
-          >
-            {topSellingItems.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+    return (
+        <div className="pie-chart-section">
+            <h3>Top Selling Items</h3>
+            <ResponsiveContainer width="100%" height={250}>
+                <PieChart>
+                    <Pie
+                        data={topSellingItems.slice(0, 4)}
+                        dataKey="weight"
+                        nameKey="item"
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={80}
+                        innerRadius={40} 
+                        cornerRadius={3}
+                        strokeWidth={2}
+                        fill="#8884d8"
+                    >
+                        {topSellingItems.slice(0, 4).map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                    </Pie>
+                    <Tooltip />
+                </PieChart>
+            </ResponsiveContainer>
+            <ul className="legend">
+            {topSellingItems.slice(0, 4).map((item, index) => (
+              <li key={index}>
+                <span
+                  className="legend-dot"
+                  style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                ></span>
+                {item.item}: {item.weight} kg
+              </li>
             ))}
-          </Pie>
-          <Tooltip />
-        </PieChart>
-      </ResponsiveContainer>
-      <ul className="legend">
-        {topSellingItems.map((item, index) => (
-          <li key={index} style={{ color: COLORS[index % COLORS.length] }}>
-            {item.item}: {item.weight} kg
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+            </ul>
+        </div>
+    );
 };
 
 export default PieChartSection;

@@ -21,7 +21,6 @@ const NotificationDropdown = ({ onClose }) => {
     };
   }, [onClose]);
 
-  // Example notifications
   const notifications = [
     { id: 1, icon: <FaBell />, message: "You created a new Firm", time: "Just now" },
     { id: 2, icon: <FaUser />, message: "New user registered", time: "59 minutes ago" },
