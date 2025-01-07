@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import DropdownMenu from './DropDownMenu';
+import DropdownMenu from './DropdownMenu';
 import './ProfileSection.css';
 
 const ProfileSection = () => {
