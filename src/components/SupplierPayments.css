@@ -1,0 +1,21 @@
+.supplier-payments-container {
+    margin: 20px 0;
+  }
+  
+  .supplier-payments-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .supplier-payments-container th, .supplier-payments-container td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  .supplier-payments-container th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+  }
+  
