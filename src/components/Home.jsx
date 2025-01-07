@@ -9,6 +9,12 @@ import RecentPayments from "./RecentPayments";
 import { useLocation } from "react-router-dom";
 import "./Home.css";
 
+// Helper to validate date format (MM-DD-YYYY)
+const isValidDate = (dateString) => {
+  const regex = /^\d{2}-\d{2}-\d{4}$/; // Matches MM-DD-YYYY
+  return regex.test(dateString);
+};
+
 const Home = () => {
   const [overviewData, setOverviewData] = useState([]);
   const [supplierData, setSupplierData] = useState([]);
@@ -21,7 +27,12 @@ const Home = () => {
   const query = new URLSearchParams(useLocation().search);
 
   useEffect(() => {
-    const date = query.get("date") || "01-01-2025";
+    // Get date from query or set default
+    let date = query.get("date");
+    if (!date || !isValidDate(date)) {
+      date = "01-01-2025"; // Default date
+    }
+
     fetch("/data.json")
       .then((response) => {
         if (!response.ok) {
@@ -32,7 +43,9 @@ const Home = () => {
       .then((data) => {
         const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
 
-        const selectedData = sortedData.find((item) => new Date(item.date).toISOString().split("T")[0] === new Date(date).toISOString().split("T")[0]);
+        const selectedData = sortedData.find(
+          (item) => new Date(item.date).toISOString().split("T")[0] === new Date(date).toISOString().split("T")[0]
+        );
 
         if (selectedData) {
           const currentIndex = sortedData.findIndex((item) => item.date === selectedData.date);
@@ -45,30 +58,30 @@ const Home = () => {
           };
 
           const overview = [
-            { 
-              title: "Total Sales", 
-              value: selectedData.total_sales, 
-              growth: previousData ? calculateGrowth(selectedData.total_sales, previousData.total_sales) : "+0%" 
+            {
+              title: "Total Sales",
+              value: selectedData.total_sales,
+              growth: previousData ? calculateGrowth(selectedData.total_sales, previousData.total_sales) : "+0%",
             },
-            { 
-              title: "Total Expenses", 
-              value: selectedData.total_expenses, 
-              growth: previousData ? calculateGrowth(selectedData.total_expenses, previousData.total_expenses) : "+0%" 
+            {
+              title: "Total Expenses",
+              value: selectedData.total_expenses,
+              growth: previousData ? calculateGrowth(selectedData.total_expenses, previousData.total_expenses) : "+0%",
             },
-            { 
-              title: "Net Profit", 
-              value: selectedData.net_profit, 
-              growth: previousData ? calculateGrowth(selectedData.net_profit, previousData.net_profit) : "+0%" 
+            {
+              title: "Net Profit",
+              value: selectedData.net_profit,
+              growth: previousData ? calculateGrowth(selectedData.net_profit, previousData.net_profit) : "+0%",
             },
-            { 
-              title: "Due Amount", 
-              value: selectedData.due_amount, 
-              growth: previousData ? calculateGrowth(selectedData.due_amount, previousData.due_amount) : "+0%" 
+            {
+              title: "Due Amount",
+              value: selectedData.due_amount,
+              growth: previousData ? calculateGrowth(selectedData.due_amount, previousData.due_amount) : "+0%",
             },
-            { 
-              title: "Payment Received", 
-              value: selectedData.payment_received, 
-              growth: previousData ? calculateGrowth(selectedData.payment_received, previousData.payment_received) : "+0%" 
+            {
+              title: "Payment Received",
+              value: selectedData.payment_received,
+              growth: previousData ? calculateGrowth(selectedData.payment_received, previousData.payment_received) : "+0%",
             },
           ];
 
