@@ -3,8 +3,10 @@ import { TrendingUp, TrendingDown } from 'lucide-react';
 import './Overview.css';
 
 const Overview = ({ overviewData }) => {
+  // console.log(overviewData)
   return (
     <div className="overview-container">
+      
       {overviewData.map((item, index) => (
         <div
           className="overview-card"

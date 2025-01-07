@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import SideBar from './SideBar';
-import SearchIcon from './SearchIcon';
-import ProfileSection from './ProfileSection';
-import Overview from './Overview';
-import Charts from './Charts';
-import PieChartSection from './PieChartSection'; 
-import RecentPayments from './RecentPayments'; 
-import './Home.css';
+import React, { useState, useEffect } from "react";
+import SideBar from "./SideBar";
+import SearchIcon from "./SearchIcon";
+import ProfileSection from "./ProfileSection";
+import Overview from "./Overview";
+import Charts from "./Charts";
+import PieChartSection from "./PieChartSection";
+import RecentPayments from "./RecentPayments";
+import { useLocation } from "react-router-dom";
+import "./Home.css";
 
 const Home = () => {
   const [overviewData, setOverviewData] = useState([]);
@@ -16,35 +17,76 @@ const Home = () => {
   const [supplierPayments, setSupplierPayments] = useState([]);
   const [customerPayments, setCustomerPayments] = useState([]);
 
+  const query = new URLSearchParams(useLocation().search);
+
   useEffect(() => {
-    fetch('/data.json')
+    const date = query.get("date") || "01-01-2025"; 
+    fetch("/data.json")
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Failed to fetch data');
+          throw new Error("Failed to fetch data");
         }
         return response.json();
       })
       .then((data) => {
-        const overview = [
-          { title: "Total Sales", value: data[0].total_sales, growth: "+5%" },
-          { title: "Total Expenses", value: data[0].total_expenses, growth: "-2%" },
-          { title: "Net Profit", value: data[0].net_profit, growth: "+10%" },
-          { title: "Due Amount", value: data[0].due_amount, growth: "+3%" },
-          { title: "Payment Received", value: data[0].payment_received, growth: "+15%" },
-        ];
+        data.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-        setOverviewData(overview);
-        setSupplierData(data[0].supplier_records);
-        setCustomerData(data[0].customer_records);
-        setTopSellingItems(data[0].top_selling_products);
+        const selectedData = data.find(item => item.date === date);
 
-        setSupplierPayments(data[0].supplier_payments);
-        setCustomerPayments(data[0].customer_payments);
+        if (selectedData) {
+          const currentIndex = data.findIndex(item => item.date === date);
+          const previousData = currentIndex > 0 ? data[currentIndex - 1] : null; 
+
+          const calculateGrowth = (currentValue, previousValue) => {
+            if (!previousValue || !currentValue) return "+0%"; 
+            const growth = ((parseFloat(currentValue) - parseFloat(previousValue)) / parseFloat(previousValue)) * 100;
+            return `${growth.toFixed(2)}%`;
+          };
+
+          const overview = [
+            { 
+              title: "Total Sales", 
+              value: selectedData.total_sales, 
+              growth: previousData ? calculateGrowth(selectedData.total_sales, previousData.total_sales) : "+0%" 
+            },
+            { 
+              title: "Total Expenses", 
+              value: selectedData.total_expenses, 
+              growth: previousData ? calculateGrowth(selectedData.total_expenses, previousData.total_expenses) : "+0%" 
+            },
+            { 
+              title: "Net Profit", 
+              value: selectedData.net_profit, 
+              growth: previousData ? calculateGrowth(selectedData.net_profit, previousData.net_profit) : "+0%" 
+            },
+            { 
+              title: "Due Amount", 
+              value: selectedData.due_amount, 
+              growth: previousData ? calculateGrowth(selectedData.due_amount, previousData.due_amount) : "+0%" 
+            },
+            { 
+              title: "Payment Received", 
+              value: selectedData.payment_received, 
+              growth: previousData ? calculateGrowth(selectedData.payment_received, previousData.payment_received) : "+0%" 
+            },
+          ];
+
+          setOverviewData(overview);
+          setSupplierData(selectedData.supplier_records);
+          setCustomerData(selectedData.customer_records);
+          setTopSellingItems(selectedData.top_selling_products);
+          setSupplierPayments(selectedData.supplier_payments);
+          setCustomerPayments(selectedData.customer_payments);
+        } else {
+          console.error("No data found for the specified date:", date);
+        }
       })
       .catch((error) => {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       });
-  }, []);
+  }, [query]);
+
+  // console.log(overviewData)
 
   return (
     <div className="home-container">

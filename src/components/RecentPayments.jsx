@@ -2,8 +2,10 @@ import React from "react";
 import "./RecentPayments.css";
 
 const RecentPayments = ({ supplierPayments, customerPayments }) => {
+  // console.log(supplierPayments, customerPayments);
   return (
     <div className="recent-payments">
+      {/* Supplier Payments Section */}
       <div className="supplier-payments">
         <h2>Recent Supplier Payments</h2>
         <table className="payments-table">
@@ -30,9 +32,7 @@ const RecentPayments = ({ supplierPayments, customerPayments }) => {
                     className={`status-badge ${
                       payment.payment_status === "Paid"
                         ? "status-done"
-                        : payment.payment_status === "Pending"
-                        ? "status-hold"
-                        : ""
+                        : "status-hold"
                     }`}
                   >
                     {payment.payment_status}
@@ -44,6 +44,7 @@ const RecentPayments = ({ supplierPayments, customerPayments }) => {
         </table>
       </div>
 
+      {/* Customer Payments Section */}
       <div className="customer-payments">
         <h2>Recent Customer Payments</h2>
         <table className="payments-table">
