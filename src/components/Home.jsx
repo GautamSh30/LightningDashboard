@@ -16,11 +16,12 @@ const Home = () => {
   const [topSellingItems, setTopSellingItems] = useState([]);
   const [supplierPayments, setSupplierPayments] = useState([]);
   const [customerPayments, setCustomerPayments] = useState([]);
+  const [error, setError] = useState(null);
 
   const query = new URLSearchParams(useLocation().search);
 
   useEffect(() => {
-    const date = query.get("date") || "01-01-2025"; 
+    const date = query.get("date") || "01-01-2025";
     fetch("/data.json")
       .then((response) => {
         if (!response.ok) {
@@ -29,16 +30,16 @@ const Home = () => {
         return response.json();
       })
       .then((data) => {
-        data.sort((a, b) => new Date(a.date) - new Date(b.date));
+        const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
 
-        const selectedData = data.find(item => item.date === date);
+        const selectedData = sortedData.find((item) => new Date(item.date).toISOString().split("T")[0] === new Date(date).toISOString().split("T")[0]);
 
         if (selectedData) {
-          const currentIndex = data.findIndex(item => item.date === date);
-          const previousData = currentIndex > 0 ? data[currentIndex - 1] : null; 
+          const currentIndex = sortedData.findIndex((item) => item.date === selectedData.date);
+          const previousData = currentIndex > 0 ? sortedData[currentIndex - 1] : null;
 
           const calculateGrowth = (currentValue, previousValue) => {
-            if (!previousValue || !currentValue) return "+0%"; 
+            if (!previousValue || !currentValue) return "+0%";
             const growth = ((parseFloat(currentValue) - parseFloat(previousValue)) / parseFloat(previousValue)) * 100;
             return `${growth.toFixed(2)}%`;
           };
@@ -72,21 +73,21 @@ const Home = () => {
           ];
 
           setOverviewData(overview);
-          setSupplierData(selectedData.supplier_records);
-          setCustomerData(selectedData.customer_records);
-          setTopSellingItems(selectedData.top_selling_products);
-          setSupplierPayments(selectedData.supplier_payments);
-          setCustomerPayments(selectedData.customer_payments);
+          setSupplierData(selectedData.supplier_records || []);
+          setCustomerData(selectedData.customer_records || []);
+          setTopSellingItems(selectedData.top_selling_products || []);
+          setSupplierPayments(selectedData.supplier_payments || []);
+          setCustomerPayments(selectedData.customer_payments || []);
+          setError(null);
         } else {
-          console.error("No data found for the specified date:", date);
+          setError("No data found for the specified date.");
         }
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+        setError("An error occurred while fetching data.");
       });
   }, [query]);
-
-  // console.log(overviewData)
 
   return (
     <div className="home-container">
@@ -102,25 +103,31 @@ const Home = () => {
           <ProfileSection />
         </div>
 
-        <div className="overview-section">
-          <Overview overviewData={overviewData} />
-        </div>
+        {error ? (
+          <div className="error-message">{error}</div>
+        ) : (
+          <>
+            <div className="overview-section">
+              <Overview overviewData={overviewData} />
+            </div>
 
-        <div className="charts-and-pie">
-          <div className="charts-container">
-            <Charts supplierData={supplierData} customerData={customerData} />
-          </div>
-          <div className="pie-chart-container">
-            <PieChartSection topSellingItems={topSellingItems} />
-          </div>
-        </div>
+            <div className="charts-and-pie">
+              <div className="charts-container">
+                <Charts supplierData={supplierData} customerData={customerData} />
+              </div>
+              <div className="pie-chart-container">
+                <PieChartSection topSellingItems={topSellingItems} />
+              </div>
+            </div>
 
-        <div className="recent-payments-section">
-          <RecentPayments
-            supplierPayments={supplierPayments}
-            customerPayments={customerPayments}
-          />
-        </div>
+            <div className="recent-payments-section">
+              <RecentPayments
+                supplierPayments={supplierPayments}
+                customerPayments={customerPayments}
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

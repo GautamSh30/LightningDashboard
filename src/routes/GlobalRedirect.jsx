@@ -23,7 +23,7 @@ const GlobalRedirect = () => {
     }
   }, [location, navigate]);
 
-  return null; 
+  return null;
 };
 
 export default GlobalRedirect;
